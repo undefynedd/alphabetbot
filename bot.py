@@ -1,7 +1,12 @@
+# videos if they start with letters
+# numbers if start with letters
+# 
+
 import discord
 
 letters = {
-    "a": ["a", "🅰️", 🇦]
+    "a": ["a", "🅰️", "🇦"],
+    "b": ["b", "🅱️", "🇧"]
 }
 
 
@@ -15,10 +20,11 @@ class MyClient(discord.Client):
 
         print(message.content)
         
-        if message.content.lower().startswith(message.channel.name):
-            await message.channel.send("good")
-        else:
-            await message.channel.send("bad")
+        if len(message.channel.name) == 1:
+            if message.content.lower().startswith(message.channel.name):
+                await message.channel.send("good")
+            else:
+                await message.channel.send("bad")
 
 client = MyClient()
 client.run("token")
