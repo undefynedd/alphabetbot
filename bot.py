@@ -5,14 +5,38 @@
 import discord
 
 letters = {
-    "a": ["a", "🅰️", "🇦"],
-    "b": ["b", "🅱️", "🇧"]
+    'a': ['a', '🅰️', '🇦'],
+    'b': ['b', '🅱️', '🇧'],
+    'c': ['c', '🇨'],
+    'd': ['d', '🇩'],
+    'e': ['e', '🇪'],
+    'f': ['f', '🇫'],
+    'g': ['g', '🇬'],
+    'h': ['h', '🇭'],
+    'i': ['i', '🇮'],
+    'j': ['j', '🇯'],
+    'k': ['k', '🇰'],
+    'l': ['l', '🇱'],
+    'm': ['m', '🇲'],
+    'n': ['n', '🇳'],
+    'o': ['o', '🅾️', '🇴'],
+    'p': ['p', '🇵'],
+    'q': ['q', '🇶'],
+    'r': ['r', '🇷'],
+    's': ['s', '🇸'],
+    't': ['t', '🇹'],
+    'u': ['u', '🇺'], 
+    'v': ['v', '🇻'],
+    'w': ['w', '🇼'],
+    'x': ['x', '🇽'],
+    'y': ['y', '🇾'],
+    'z': ['z', '🇿']
 }
 
 
 class MyClient(discord.Client):
     async def on_ready(self):
-        print('Logged on as {0}!'.format(self.user))
+        print(f"Logged on as {self.user}!")
 
     async def on_message(self, message):
         if message.author == self.user:
@@ -21,10 +45,17 @@ class MyClient(discord.Client):
         print(message.content)
         
         if len(message.channel.name) == 1:
-            if message.content.lower().startswith(message.channel.name):
-                await message.channel.send("good")
-            else:
-                await message.channel.send("bad")
+            good = 0
+            
+            for i in letters[message.channel.name]:
+            
+                if message.content.lower().startswith(i):
+                    good = 1
+                    return
+                    
+            if good == 0:
+                await message.delete()
+                await message.channel.send(f"<@{message.author.id}> no")
 
 client = MyClient()
 client.run("token")
