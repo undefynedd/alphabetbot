@@ -49,7 +49,7 @@ class MyClient(discord.Client):
             
             for i in letters[message.channel.name]:
             
-                if message.content.lower().startswith(i):
+                if message.content.lower().strip("*_`~").startswith(i):
                     good = 1
                     return
                     
