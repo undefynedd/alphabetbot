@@ -55,7 +55,7 @@ class MyClient(discord.Client):
                     
             if good == 0:
                 await message.delete()
-                await message.channel.send(f"<@{message.author.id}> no")
+                await message.channel.send(f"<@{message.author.id}> no", delete_after = 5)
 
 client = MyClient()
 client.run("token")
