@@ -57,35 +57,57 @@ class MyClient(discord.Client):
             if len(message.content) == 0:
                 good = 1
             
-            elif message.content.startswith("https://www.youtube.com/" or "https://youtube.com/" or "https://youtu.be/" or "http://youtu.be"):
-                id = parse_qs(urlparse(message.content).query).get('v')
+            elif "youtu" in message.content:
                 
-                params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % id}
-                url = "https://www.youtube.com/oembed"
-                query_string = urllib.parse.urlencode(params)
-                url = url + "?" + query_string
+                if "youtu.be" in message.content:
+                    if "https://" in message.content:
+                        id = message.content[17:].strip("/")
+                        
+                    elif "http://" in message.content:
+                        id = message.content[16:].strip("/")
+                        
+                else:
+                    id = parse_qs(urlparse(message.content).query).get('v')
+                
+                print(id)
+                
+                try:
+                    params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % id}
+                    url = "https://www.youtube.com/oembed"
+                    query_string = urllib.parse.urlencode(params)
+                    url = url + "?" + query_string
 
-                with urllib.request.urlopen(url) as response:
-                    response_text = response.read()
-                    data = json.loads(response_text.decode())
-                    print(data)
-                    title = data['title']
-                    
-                    for i in letters[message.channel.name]:
-                    
-                        if title.lower().startswith(i):
-                            good = 1
-                            return
-            else:
-                for i in letters[message.channel.name]:
+                    with urllib.request.urlopen(url) as response:
+                        response_text = response.read()
+                        data = json.loads(response_text.decode())
+                        print(data)
+                        title = data['title']
+                        
+                        for i in letters[message.channel.name]:
+                        
+                            if title.lower().startswith(i):
+                                good = 1
+                                return
                 
-                    if message.content.lower().strip("*_`~").startswith(i):
-                        good = 1
-                        return
+                except:
+                    print("why tho")
+                    good = 0
+                    
+            for i in letters[message.channel.name]:
+            
+                if message.content.lower().strip("*_`~").startswith(i):
+                    good = 1
+                    return
                         
             if good == 0:
+                print(f"deleted{message.content}!")
                 await message.delete()
                 await message.channel.send(f"<@{message.author.id}> no", delete_after = 5)
+                
+        elif message.content.startswith("!"):
+            if message.content.lower().strip("!").startswith("ping"):
+                ping = round(client.latency * 1000)
+                await message.channel.send(f"Pong! `{ping}ms`")
 
 client = MyClient()
 client.run("token")
