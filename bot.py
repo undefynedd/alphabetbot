@@ -57,7 +57,7 @@ class MyClient(discord.Client):
             if len(message.content) == 0:
                 good = 1
             
-            if message.content.startswith("https://www.youtube.com/" or "https://youtube.com/" or "https://youtu.be/" or "http://youtu.be"):
+            elif message.content.startswith("https://www.youtube.com/" or "https://youtube.com/" or "https://youtu.be/" or "http://youtu.be"):
                 id = parse_qs(urlparse(message.content).query).get('v')
                 
                 params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % id}
