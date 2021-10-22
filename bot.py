@@ -67,7 +67,7 @@ class MyClient(discord.Client):
                         id = message.content[16:].strip("/")
                         
                 else:
-                    id = parse_qs(urlparse(message.content).query).get('v')
+                    id = parse_qs(urlparse(message.content).query).get('v')[0]
                 
                 print(id)
                 
