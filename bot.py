@@ -17,9 +17,11 @@ import urllib.request
 from urllib.parse import parse_qs, urlparse
 import pprint
 
+import random                                             # for random
+
 ### INIT      ###                                         ---
 
-version = "1.0.0"
+version = "1.1.0"
 
 intents=intents=discord.Intents.all()                     # makes bots work
 client = commands.Bot(command_prefix="!", intents=intents)
@@ -115,6 +117,10 @@ async def on_message(message):
         elif message.content.lower().strip("!").startswith("pong"):
             await message.channel.send(f"Ping! <@{message.author.id}>")
                 
+        elif message.content.lower().strip("!").startswith("rl"):
+            letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+            letter = letters[random.randrange(26)]
+            await message.channel.send(f"Your letter is `{letter}`!")
     
 @client.event
 async def on_member_join(member):
