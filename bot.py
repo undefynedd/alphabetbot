@@ -109,6 +109,9 @@ async def on_message(message):
         if message.content.lower().strip("!").startswith("ping"):
             ping = round(client.latency * 1000)
             await message.channel.send(f"Pong! `{ping}ms`")
+            
+        elif message.content.lower().strip("!").startswith("pong"):
+            await message.channel.send(f"Ping! <@{message.author.id}>")
                 
     
 @client.event
