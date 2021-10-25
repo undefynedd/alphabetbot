@@ -67,17 +67,17 @@ async def on_message(message):
             
             try:
                 params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % id}   # yeah i found this on stackoverflow
-                url = "https://www.youtube.com/oembed"   # what does this do
+                url = "https://www.youtube.com/oembed"   # oh! this is the start of the url
                 query_string = urllib.parse.urlencode(params)   # this gets the query string (id)
-                url = url + "?" + query_string   # this makes it url
+                url = url + "?" + query_string   # this adds the id onto the url!
 
                 with urllib.request.urlopen(url) as response:   # this whole thing gets the data from the yt video
-                    response_text = response.read()
-                    data = json.loads(response_text.decode())
-                    title = data['title']
-                    print(f"The title was {title}.")
+                    response_text = response.read()   # i think this reads the json and puts it in var
+                    data = json.loads(response_text.decode())   # oh and this loads it into json
+                    title = data['title']    # and this gets the title
+                    print(f"The title was {title}.")   # useless debug code shut up
                     
-                    for i in letters[message.channel.name]:
+                    for i in letters[message.channel.name]:    # i should make this a function
                     
                         if title.lower().startswith(i):
                             print(f"The video started with {i}, so it's all good.")
@@ -85,12 +85,17 @@ async def on_message(message):
                             return
             
             except:
-                print("I don't think it was a youtube video. :sadge: I give up")
+                print("I don't think it was a youtube video. I give up")
                 good = 0
                 
         for i in letters[message.channel.name]:
         
             if message.content.lower().strip("*_`~|").startswith(i):
+                print("Success!")
+                good = 1
+                return
+            
+            elif unidecode(message.content.lower().strip("*_`~|")).startswith(i):
                 print("Success!")
                 good = 1
                 return
@@ -109,7 +114,7 @@ async def on_message(message):
 @client.event
 async def on_member_join(member):
     channel = client.get_channel(welcomechannel)
-    await channel.send(f"<@{member.id}> joined!")
+    await channel.send(f"Welcome! <@{member.id}> just learnt the alphabet!")
     print(f"{member} joined")
     
     role = get(member.guild.roles, id = autorole)
@@ -119,7 +124,7 @@ async def on_member_join(member):
 @client.event
 async def on_member_remove(member):
     channel = client.get_channel(welcomechannel)
-    await channel.send(f"<@{member.id}> left!")
-    print(f"{member} left")
+    await channel.send(f"RIP! <@{member.id}> forgot their ABC's.")
+    print(f"RIP {member}, they forgot their ABC's.")
 
 client.run(TOKEN)
