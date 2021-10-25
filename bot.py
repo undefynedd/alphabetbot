@@ -19,6 +19,8 @@ import pprint
 
 ### INIT      ###                                         ---
 
+version = "1.0.0"
+
 intents=intents=discord.Intents.all()                     # makes bots work
 client = commands.Bot(command_prefix="!", intents=intents)
 
